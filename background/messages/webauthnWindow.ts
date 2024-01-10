@@ -2,7 +2,7 @@ import { runtime, windows, type Runtime } from "webextension-polyfill"
 
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-import { bigIntInLog } from "~utils/bigIntInLog"
+import { toString } from "~utils/bigInt"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   const webauthnWindowUrl = `${runtime.getURL(
@@ -13,7 +13,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     req.body.request.challenge
   }`
   const response = await webauthnWindowAsync(webauthnWindowUrl)
-  bigIntInLog("[background] Webauthn window closed", response)
+  console.log(`[background] Webauthn window closed: ${toString(response)}`)
   res.send({
     response
   })
@@ -65,7 +65,7 @@ export function webauthnWindowAsync(createWindowUrl: string) {
             }
             webauthnRegistration = message
             webauthnAuthentication = undefined
-            bigIntInLog("[background] credential", webauthnRegistration)
+            console.log(`[background] credential: ${toString(webauthnRegistration)}`)
             port.postMessage({ out: "got credential!" })
           })
         }
@@ -77,7 +77,7 @@ export function webauthnWindowAsync(createWindowUrl: string) {
             }
             webauthnAuthentication = message
             webauthnRegistration = undefined
-            bigIntInLog("[background] signature", webauthnAuthentication)
+            console.log(`[background] signature: ${toString(webauthnAuthentication)}`)
             port.postMessage({ out: "got signature!" })
           })
         }

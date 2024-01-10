@@ -2,7 +2,7 @@ import { useCallback, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
-import { bigIntInLog } from "~utils/bigIntInLog"
+import { toString } from "~utils/bigInt"
 
 function IndexPopup() {
   const buttonWebauthnWindow = useCallback(async () => {
@@ -19,7 +19,7 @@ function IndexPopup() {
         }
       }
     })
-    bigIntInLog("[popup] response", response)
+    console.log(`[popup] response: ${toString(response)}`)
   }, [])
 
   return (

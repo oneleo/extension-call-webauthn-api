@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { runtime, type Runtime } from "webextension-polyfill"
 
-import { sendToContentScript } from "@plasmohq/messaging"
-
+import { toString } from "~utils/bigInt"
 import { objectFromUrlParams } from "~utils/url"
 import { createWebauthn, requestWebauthn } from "~utils/webauthn"
 
@@ -73,17 +72,7 @@ export const Webauthn = () => {
   const buttonCreateWebauthn = useCallback(async () => {
     try {
       const credential = await createWebauthn(webauthnCreation)
-      // Resolve TypeError: Do not know how to serialize a BigInt
-      // Refer: https://github.com/GoogleChromeLabs/jsbi/issues/30
-      console.log(
-        `[tab][createWebauthn] credential: ${JSON.stringify(
-          credential,
-          (_, value) => {
-            return typeof value === "bigint" ? value.toString() : value
-          },
-          2
-        )}`
-      )
+      console.log(`[tab] credential: ${toString(credential)}`)
       setCred(credential)
 
       // send to background that create this window
@@ -105,17 +94,7 @@ export const Webauthn = () => {
           ? { ...webauthnRequest, credentialId: cred.credentialId }
           : webauthnRequest
       )
-      // Resolve TypeError: Do not know how to serialize a BigInt
-      // Refer: https://github.com/GoogleChromeLabs/jsbi/issues/30
-      console.log(
-        `[tab][requestWebauthn] signature: ${JSON.stringify(
-          signature,
-          (_, value) => {
-            return typeof value === "bigint" ? value.toString() : value
-          },
-          2
-        )}`
-      )
+      console.log(`[tab] signature: ${toString(signature)}`)
       setSig(signature)
 
       // send to background that create this window
@@ -146,32 +125,14 @@ export const Webauthn = () => {
         <div></div>
       ) : (
         <div>
-          <p>
-            Webauthn credential:{" "}
-            {JSON.stringify(
-              cred,
-              (_, value) => {
-                return typeof value === "bigint" ? value.toString() : value
-              },
-              2
-            )}
-          </p>
+          <p>Webauthn credential: {toString(cred)}</p>
         </div>
       )}
       {sig === undefined ? (
         <div></div>
       ) : (
         <div>
-          <p>
-            Webauthn signature:{" "}
-            {JSON.stringify(
-              sig,
-              (_, value) => {
-                return typeof value === "bigint" ? value.toString() : value
-              },
-              2
-            )}
-          </p>
+          <p>Webauthn signature: {toString(sig)}</p>
         </div>
       )}
     </>
