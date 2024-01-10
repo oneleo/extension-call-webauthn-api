@@ -1,0 +1,38 @@
+{
+  "name": "extension-call-webauthn-api",
+  "displayName": "Extension call webauthn api",
+  "version": "0.0.1",
+  "description": "Browser extension with webauthn api",
+  "author": "Irara Chen <oneleo760823@yahoo.com.tw>",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "test": "plasmo test",
+    "clear": "rm -rf .plasmo/ && rm -rf build/"
+  },
+  "dependencies": {
+    "@noble/curves": "^1.3.0",
+    "@plasmohq/messaging": "^0.6.1",
+    "@simplewebauthn/browser": "^8.3.4",
+    "@simplewebauthn/server": "^8.3.6",
+    "@simplewebauthn/typescript-types": "^8.3.4",
+    "plasmo": "0.84.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "4.1.1",
+    "@types/chrome": "0.0.251",
+    "@types/node": "20.9.0",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
+    "prettier": "3.0.3",
+    "typescript": "5.2.2"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ]
+  }
+}
